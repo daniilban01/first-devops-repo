@@ -1,0 +1,28 @@
+name: primul pipeline
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      #Pasul1: verificare cod
+      - name: code checkout
+        uses: actions/checkout@v4
+
+      #Pasul2: pasul care seteaza si ruleaza python
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: run python
+        run: python main.py
+
+      #Pasul3: pasul care construieste o imagine Docker
+      - name: build docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: my-app:latest
+      
